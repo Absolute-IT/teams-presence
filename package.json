@@ -1,0 +1,39 @@
+{
+  "name": "teams-presence",
+  "version": "1.0.0",
+  "description": "Automatically keep Microsoft Teams accounts in 'online' status.",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "npm run build && node ./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Absolute-IT/teams-presence.git"
+  },
+  "keywords": [
+    "microsoft",
+    "teams",
+    "status"
+  ],
+  "imports": {
+    "#classes/*": "./dist/classes/*.js"
+  },
+  "author": "Matthew Scott",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Absolute-IT/teams-presence/issues"
+  },
+  "homepage": "https://github.com/Absolute-IT/teams-presence#readme",
+  "devDependencies": {
+    "@types/node": "^20.14.12",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "@azure/identity": "^4.4.0",
+    "@microsoft/microsoft-graph-client": "^3.0.7",
+    "chalk": "^5.3.0",
+    "dotenv": "^16.4.5"
+  }
+}

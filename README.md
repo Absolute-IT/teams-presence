@@ -3,9 +3,9 @@ Microsoft Teams is a critical part of many business's workflow and communication
 
 This tool uses the Microsoft Graph API to automatically keep accounts in the 'online' status.
 
-Developed by [Absolute Software](https://absolutesoftware.com.au/) Australia.
+Developed by [Absolute I.T.](https://absolute-it.com.au/) Australia, Sunshine Coast managed IT service provider and software development.
 
-[![Static Badge](https://img.shields.io/badge/Download-1.0.0-blue)](https://absolutesoftware.com.au/)
+[![Download 1.0.0](https://img.shields.io/badge/Download-1.0.0-blue)](https://absolute-it.com.au/)
 
 ## Requirements
 The application is built using Typescript and requires NodeJS on the computer to function. Installing NodeJS is easier than ever with `nvm` (Node Version Manager). Follow [this guide](https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/) to install on your operating system of choice. 

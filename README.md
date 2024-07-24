@@ -26,7 +26,7 @@ This project was developed using Node v22.2.0, however it should work with older
 5. Create an `accounts.json` file in the project's root directory. See formatting below.
 6. Run `npm install` in the root directory to install dependencies.
 
-#### .env
+### .env
 ```dotenv
 NODE_ENV=production
 
@@ -46,7 +46,7 @@ PROCESS_DELAY=200
 - `REFRESH_MINUTES` defines how many minutes the program waits before refreshing the account statuses.
 - `PROCESS_DELAY` set a delay in milliseconds between each API call. Can be set to 0 for no delay.
 
-#### accounts.json
+### accounts.json
 ```
 [
 	{

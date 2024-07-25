@@ -1,12 +1,16 @@
 import Logging from "#classes/Logging";
 import Graph from "#classes/Graph";
 
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 async function main() {
 	Logging.log("Starting presence tool...");
 	let graph = new Graph();
 
-	graph.process();
-	setInterval(() => graph.process(), 1000 * 60 * (process.env.REFRESH_MINUTES ?? 5));
+	while (true) {
+		await graph.process();
+		await delay(1000 * 60 * (process.env.REFRESH_MINUTES ?? 5));
+	}
 }
 
 main().catch(error => {

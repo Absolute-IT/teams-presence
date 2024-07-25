@@ -129,6 +129,8 @@ export default class Graph {
 			throw error;
 		}
 
+		this.accounts = [];
+
 		return this.listUsers().then(async results => {
 			for (const target of targets) {
 				const account = results.value.find((user: Account) => {
@@ -162,8 +164,6 @@ export default class Graph {
 		}
 		
 		const result = await this.client.api("/communications/getPresencesByUserId").post(options);
-
-		console.log(result);
 
 		return result;
 	}

@@ -9,6 +9,8 @@ import { ClientSecretCredential } from "@azure/identity";
 import fs from "node:fs";
 import chalk from "chalk";
 
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 /**
  * Defines the structure for an account object, representing user information and status.
  * 
@@ -222,16 +224,27 @@ export default class Graph {
 	 * @throws {Error} Throws an error if loading accounts or setting presence for any account fails.
 	 */
 	async process() {
-		const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
 		Logging.staticLog(chalk.blueBright("Loading account data..."));
-		let accounts = await this.loadAccounts();
+		let accounts = null;
+		try {
+			accounts = await this.loadAccounts();
+		} catch (error) {
+			Logging.complete();
+			Logging.error(error, error);
+			return;
+		}
 
 		Logging.staticLog(chalk.blueBright("Setting presences..."));
 		await delay(process.env.PROCESS_DELAY ?? 200);
 		for (const account of accounts) {
 			Logging.staticLog(`${chalk.blueBright("Setting presence to ")}${chalk.green(account.status)}${chalk.blueBright(" for ")}${chalk.green(account.userPrincipalName.toLowerCase())}${chalk.blueBright("...")}`);
-			await this.setPresence(account);
+			try {
+				await this.setPresence(account);
+			} catch (error) {
+				Logging.complete();
+				Logging.error(error, error);
+				return;
+			}
 			
 			Logging.staticLog(`${chalk.blueBright(`Successfully set `)}${chalk.green(account.status)}${chalk.blueBright(" for ")}${chalk.green(account.userPrincipalName.toLowerCase())}${chalk.blueBright("...")}`);
 			await delay(process.env.PROCESS_DELAY ?? 200);

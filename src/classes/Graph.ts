@@ -168,7 +168,7 @@ export default class Graph {
 		if (wipe) Logging.clearLine(this.accounts.length);
 		for (const account of this.accounts) {
 			const presence = result.value.find((p: any) => p.id == account.id);
-			Logging.basicLog(`\n${chalk.blueBright("Presence for ")}${chalk.green(account.userPrincipalName.toLowerCase())}${chalk.blueBright(": ")}${presence?.availability ? chalk.green(presence.availability) : chalk.red("UNKNOWN")}${chalk.blueBright(" (")}${presence?.activity ? chalk.green(presence.activity) : chalk.red("UNKNOWN")}${chalk.blueBright(")")}`);
+			Logging.basicLog(`\n${chalk.blueBright("Presence for ")}${chalk.green(account.userPrincipalName.toLowerCase())}${chalk.blueBright(": ")}${presence?.availability ? chalk.green(presence.availability) : chalk.red("UNKNOWN")}${presence?.availability != presence?.activity ? `${chalk.blueBright(" (")}${presence?.activity ? chalk.green(presence.activity) : chalk.red("UNKNOWN")}${chalk.blueBright(")")}` : ``}`);
 		}
 
 		return result;
@@ -220,6 +220,17 @@ export default class Graph {
 		return result;
 	}
 
+	async setPreferredPresence(account: Account) {
+		const options = {
+			availability: "Available",
+			activity: "Available"
+		}
+
+		const result = await this.client.api(`/users/${account.id}/presence/setUserPreferredPresence`).post(options);
+
+		return result;
+	}
+
 	/**
 	 * Processes all accounts by loading them, setting their presence based on the account status, and logging the operations.
 	 * It introduces a delay between setting the presence for each account to avoid rate limiting issues.
@@ -245,6 +256,7 @@ export default class Graph {
 		for (const account of accounts) {
 			Logging.staticLog(`${chalk.blueBright("Setting presence to ")}${chalk.green(account.status)}${chalk.blueBright(" for ")}${chalk.green(account.userPrincipalName.toLowerCase())}${chalk.blueBright("...")}`);
 			try {
+				await this.setPreferredPresence(account);
 				await this.setPresence(account);
 			} catch (error) {
 				Logging.complete();

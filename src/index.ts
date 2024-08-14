@@ -6,10 +6,14 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 async function main() {
 	Logging.log("Starting presence tool...");
 	let graph = new Graph();
-
+	
 	while (true) {
 		await graph.process();
-		await delay(1000 * 60 * (process.env.REFRESH_MINUTES ?? 5));
+		for (let i = 0; i < (process.env.REFRESH_MINUTES ?? 5) * 3; i++) {
+			await graph.listPresence(i != 0);
+			await delay(1000 * 20); // Update every 20 seconds.
+		}
+		Logging.moveUp(graph.accounts.length);
 	}
 }
 

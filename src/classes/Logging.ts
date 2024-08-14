@@ -53,8 +53,19 @@ export default class Logging {
 		process.stdout.write(`\r${progressString}`);
 	}
 
+	/** 
+	 * Logs a message to the console without any manipulation.
+	 * 
+	 * @param {string} message - The message to log.
+	 * 
+	 * @example Logging.basicLog("Hello, world!");
+	 */
+	static basicLog(message: string) {
+		process.stdout.write(`${message}`);
+	}
+	
 	/**
-	 * Logs a static message to the console.
+	 * Moves to the start of the line and logs a message.
 	 * 
 	 * @param {string} message - The static message to log.
 	 * 
@@ -72,4 +83,30 @@ export default class Logging {
 	static complete() {
 		process.stdout.write("\n");
 	}
+
+	/**
+	 * Clears a specified number of lines from the console.
+	 * 
+	 * @param {number} [count=1] - The number of lines to clear.
+	 * 
+	 * @example Logging.clearLine(2);
+	 */
+	static clearLine(count: number = 1) {
+		for (let i = 0; i < count; i++) {
+			process.stdout.write(`\x1b[2K\x1b[1A`);
+		}
+	}
+
+	/** 
+	 * Moves up a specified number of lines in the console.
+	 * 
+	 * @param {number} [count=1] - The number of lines to move up.
+	 * 
+	 * @example Logging.moveUp(2);
+	*/
+	static moveUp(count: number = 1) {
+		for (let i = 0; i < count; i++) {
+			process.stdout.write(`\x1b[1A`);
+		}
+	}	
 }

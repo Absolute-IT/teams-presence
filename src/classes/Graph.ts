@@ -57,7 +57,7 @@ export default class Graph {
 	private clientID: string;
 	private secret: string;
 
-	private accounts: Array<Account>;
+	public accounts: Array<Account>;
 
 	private client: Client;
 
@@ -158,12 +158,18 @@ export default class Graph {
 	 * @returns {Promise<any>} A promise that resolves to the presence information of all accounts.
 	 * @throws {Error} Throws an error if the Microsoft Graph API call fails.
 	 */
-	async listPresence() {
+	async listPresence(wipe: boolean = false) {
 		const options = {
 			ids: this.accounts.map(account => account.id)
 		}
 		
 		const result = await this.client.api("/communications/getPresencesByUserId").post(options);
+
+		if (wipe) Logging.clearLine(this.accounts.length);
+		for (const account of this.accounts) {
+			const presence = result.value.find((p: any) => p.id == account.id);
+			Logging.basicLog(`\n${chalk.blueBright("Presence for ")}${chalk.green(account.userPrincipalName.toLowerCase())}${chalk.blueBright(": ")}${presence?.availability ? chalk.green(presence.availability) : chalk.red("UNKNOWN")}${chalk.blueBright(" (")}${presence?.activity ? chalk.green(presence.activity) : chalk.red("UNKNOWN")}${chalk.blueBright(")")}`);
+		}
 
 		return result;
 	}

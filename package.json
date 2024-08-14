@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p .",
-    "start": "npm run build && node ./dist/index.js"
+    "start": "npm run build && node ./dist/index.js",
+	"postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -15,7 +16,8 @@
   "keywords": [
     "microsoft",
     "teams",
-    "status"
+    "status",
+	"presence"
   ],
   "imports": {
     "#classes/*": "./dist/classes/*.js"

@@ -103,7 +103,15 @@ export default class Graph {
 		if (filter != null) query.filter(filter);
 		if (select != null) query.select(select);
 	
-		const result = await query.get();
+		let result = null;
+		while (result == null) {
+			try {
+				result = await query.get();
+			} catch (error) {
+				Logging.error(error, error);
+				await delay(5000);
+			}
+		}
 		
 		return result;
 	}
@@ -163,7 +171,15 @@ export default class Graph {
 			ids: this.accounts.map(account => account.id)
 		}
 		
-		const result = await this.client.api("/communications/getPresencesByUserId").post(options);
+		let result = null;
+		while (result == null) {
+			try {
+				result = await this.client.api("/communications/getPresencesByUserId").post(options);
+			} catch (error) {
+				Logging.error(error, error);
+				await delay(5000);
+			}
+		}
 
 		if (wipe) Logging.clearLine(this.accounts.length);
 		for (const account of this.accounts) {
@@ -215,8 +231,16 @@ export default class Graph {
 			expirationDuration: "PT4H"
 		}
 		
-		const result = await this.client.api(`/users/${account.id}/presence/setPresence`).post(options);
-		
+		let result = null;
+		while (result == null) {
+			try {
+				result = await this.client.api(`/users/${account.id}/presence/setPresence`).post(options);
+			} catch (error) {
+				Logging.error(error, error);
+				await delay(5000);
+			}
+		}
+
 		return result;
 	}
 
@@ -226,8 +250,16 @@ export default class Graph {
 			activity: "Available"
 		}
 
-		const result = await this.client.api(`/users/${account.id}/presence/setUserPreferredPresence`).post(options);
-
+		let result = null;
+		while (result == null) {
+			try {
+				result = await this.client.api(`/users/${account.id}/presence/setUserPreferredPresence`).post(options);
+			} catch (error) {
+				Logging.error(error, error);
+				await delay(5000);
+			}
+		}
+		
 		return result;
 	}
 
